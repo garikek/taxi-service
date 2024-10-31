@@ -49,9 +49,7 @@ public class DefaultPassengerService implements PassengerService {
 
     @Override
     public PassengerResponse getPassengerById(Long id) {
-        Passenger passenger = passengerRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(String.format(PASSENGER_NOT_FOUND_BY_ID, id)));
-        return passengerMapper.toPassengerDTO(passenger);
+        return passengerMapper.toPassengerDTO(getByIdOrThrow(id));
     }
 
     @Override
@@ -64,9 +62,7 @@ public class DefaultPassengerService implements PassengerService {
 
     @Override
     public PassengerResponse updatePassenger(Long id, PassengerRequest passengerRequest) {
-        Passenger existingPassenger = passengerRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(String.format(PASSENGER_NOT_FOUND_BY_ID, id)));
-
+        Passenger existingPassenger = getByIdOrThrow(id);
         passengerMapper.updatePassengerFromDTO(passengerRequest, existingPassenger);
         validateUpdatePassenger(existingPassenger);
         existingPassenger.setUpdatedAt(LocalDateTime.now());
@@ -114,6 +110,11 @@ public class DefaultPassengerService implements PassengerService {
                 throw new DuplicatePhoneNumberException(String.format(DUPLICATE_PHONE_NUMBER, passenger.getPhoneNumber()));
             }
         });
+    }
+
+    private Passenger getByIdOrThrow(Long id){
+        return passengerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(PASSENGER_NOT_FOUND_BY_ID, id)));
     }
 
 }

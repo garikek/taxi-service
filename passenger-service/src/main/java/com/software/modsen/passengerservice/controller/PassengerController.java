@@ -14,13 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.net.URI;
-
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/passengers")
+@RequestMapping("/api/v1/passengers")
 @Tag(name = "Passengers", description = "Endpoints for managing passengers")
 public class PassengerController {
     private final PassengerService passengerService;
@@ -28,8 +24,8 @@ public class PassengerController {
     @Operation(summary = "Get list of all passengers")
     @ApiResponse(responseCode = "200", description = "Successfully retrieved list of passengers")
     @GetMapping
-    public PassengerListDTO getPassengers() {
-        return passengerService.getPassengers();
+    public ResponseEntity<PassengerListDTO> getPassengers() {
+        return ResponseEntity.ok(passengerService.getPassengers());
     }
 
     @Operation(summary = "Add a new passenger")
@@ -39,13 +35,7 @@ public class PassengerController {
     })
     @PostMapping
     public ResponseEntity<PassengerResponse> addPassenger(@RequestBody PassengerRequest passengerRequest) {
-        PassengerResponse createdPassenger = passengerService.addPassenger(passengerRequest);
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(createdPassenger.getId())
-                .toUri();
-        return ResponseEntity.created(location).body(createdPassenger);
+        return ResponseEntity.status(HttpStatus.CREATED).body(passengerService.addPassenger(passengerRequest));
     }
 
     @Operation(summary = "Get a passenger by ID")
@@ -64,11 +54,11 @@ public class PassengerController {
             @ApiResponse(responseCode = "204", description = "Passenger deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Passenger not found")
     })
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void  deletePassenger(
+    public ResponseEntity<Void>  deletePassenger(
             @Parameter(description = "ID of the passenger to delete") @PathVariable Long id) {
         passengerService.deletePassenger(id);
+        return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "Update a passenger by ID")
@@ -82,7 +72,7 @@ public class PassengerController {
             @Parameter(description = "ID of the passenger to update") @PathVariable Long id,
             @RequestBody PassengerRequest passengerRequest
     ) {
-        return ResponseEntity.ok().body(passengerService.updatePassenger(id, passengerRequest));
+        return ResponseEntity.ok(passengerService.updatePassenger(id, passengerRequest));
     }
 
 }

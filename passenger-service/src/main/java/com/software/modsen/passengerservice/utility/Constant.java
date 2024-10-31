@@ -6,4 +6,5 @@ public class Constant {
     public static final String INVALID_PHONE_NUMBER = "Invalid phone number: %s";
     public static final String DUPLICATE_EMAIL = "Email %s exists already";
     public static final String DUPLICATE_PHONE_NUMBER = "Phone number %s exists already";
+    public static final String UNEXPECTED_ERROR_MESSAGE = "An unexpected error occurred. Please try again later.";
 }
