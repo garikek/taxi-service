@@ -10,4 +10,6 @@ public interface DriverRatingService {
     DriverRatingResponse getDriverRatingById(Long id);
     void deleteDriverRating(Long id);
     DriverRatingResponse updateDriverRating(Long id, DriverRatingRequest driverRatingRequest);
+    void deleteDriverRatingByDriverId(Long driverId);
+    DriverRatingResponse updateDriverRatingByDriverId(Long driverId, DriverRatingRequest driverRatingRequest);
 }

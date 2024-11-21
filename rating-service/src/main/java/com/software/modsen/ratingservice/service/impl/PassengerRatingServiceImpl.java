@@ -12,11 +12,11 @@ import com.software.modsen.ratingservice.service.PassengerRatingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.stream.Collectors;
 
-import static com.software.modsen.ratingservice.utility.Constant.DUPLICATE_PASSENGER_RATING;
-import static com.software.modsen.ratingservice.utility.Constant.PASSENGER_RATING_NOT_FOUND_BY_ID;
+import static com.software.modsen.ratingservice.utility.Constant.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,6 +33,7 @@ public class PassengerRatingServiceImpl implements PassengerRatingService {
     }
 
     @Override
+    @Transactional
     public PassengerRatingResponse addPassengerRating(PassengerRatingRequest passengerRatingRequest) {
         checkPassengerRatingExist(passengerRatingRequest.getPassengerId());
         PassengerRating passengerRating = passengerRatingMapper.toPassengerRatingEntity(passengerRatingRequest);
@@ -46,6 +47,7 @@ public class PassengerRatingServiceImpl implements PassengerRatingService {
     }
 
     @Override
+    @Transactional
     public void deletePassengerRating(Long id) {
         if(!passengerRatingRepository.existsById(id)) {
             throw new ResourceNotFoundException(String.format(PASSENGER_RATING_NOT_FOUND_BY_ID, id));
@@ -54,11 +56,30 @@ public class PassengerRatingServiceImpl implements PassengerRatingService {
     }
 
     @Override
+    @Transactional
     public PassengerRatingResponse updatePassengerRating(Long id, PassengerRatingRequest passengerRatingRequest) {
         PassengerRating existingPassengerRating = getByIdOrThrow(id);
         passengerRatingMapper.updatePassengerRatingFromDto(passengerRatingRequest, existingPassengerRating);
         PassengerRating updatedPassengerRating = passengerRatingRepository.save(existingPassengerRating);
         return passengerRatingMapper.toPassengerRatingDto(updatedPassengerRating);
+    }
+
+    @Override
+    @Transactional
+    public void deletePassengerRatingByPassengerId(Long passengerId) {
+        PassengerRating rating = passengerRatingRepository.findByPassengerId(passengerId)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(PASSENGER_RATING_NOT_FOUND_BY_PASSENGER_ID, passengerId)));
+        passengerRatingRepository.delete(rating);
+    }
+
+    @Override
+    @Transactional
+    public PassengerRatingResponse updatePassengerRatingByPassengerId(Long passengerId, PassengerRatingRequest passengerRatingRequest) {
+        PassengerRating rating = passengerRatingRepository.findByPassengerId(passengerId)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(PASSENGER_RATING_NOT_FOUND_BY_PASSENGER_ID, passengerId)));
+        passengerRatingMapper.updatePassengerRatingFromDto(passengerRatingRequest, rating);
+        PassengerRating updatedRating = passengerRatingRepository.save(rating);
+        return passengerRatingMapper.toPassengerRatingDto(updatedRating);
     }
 
     private PassengerRating getByIdOrThrow(Long id){

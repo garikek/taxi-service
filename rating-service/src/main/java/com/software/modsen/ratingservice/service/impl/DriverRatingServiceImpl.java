@@ -12,11 +12,11 @@ import com.software.modsen.ratingservice.service.DriverRatingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.stream.Collectors;
 
-import static com.software.modsen.ratingservice.utility.Constant.DUPLICATE_DRIVER_RATING;
-import static com.software.modsen.ratingservice.utility.Constant.DRIVER_RATING_NOT_FOUND_BY_ID;
+import static com.software.modsen.ratingservice.utility.Constant.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,8 +33,8 @@ public class DriverRatingServiceImpl implements DriverRatingService {
     }
 
     @Override
+    @Transactional
     public DriverRatingResponse addDriverRating(DriverRatingRequest driverRatingRequest) {
-        checkDriverRatingExist(driverRatingRequest.getDriverId());
         DriverRating driverRating = driverRatingMapper.toDriverRatingEntity(driverRatingRequest);
         DriverRating savedDriverRating = driverRatingRepository.save(driverRating);
         return driverRatingMapper.toDriverRatingDto(savedDriverRating);
@@ -46,6 +46,7 @@ public class DriverRatingServiceImpl implements DriverRatingService {
     }
 
     @Override
+    @Transactional
     public void deleteDriverRating(Long id) {
         if(!driverRatingRepository.existsById(id)) {
             throw new ResourceNotFoundException(String.format(DRIVER_RATING_NOT_FOUND_BY_ID, id));
@@ -54,11 +55,30 @@ public class DriverRatingServiceImpl implements DriverRatingService {
     }
 
     @Override
+    @Transactional
     public DriverRatingResponse updateDriverRating(Long id, DriverRatingRequest driverRatingRequest) {
         DriverRating existingDriverRating = getByIdOrThrow(id);
         driverRatingMapper.updateDriverRatingFromDto(driverRatingRequest, existingDriverRating);
         DriverRating updatedDriverRating = driverRatingRepository.save(existingDriverRating);
         return driverRatingMapper.toDriverRatingDto(updatedDriverRating);
+    }
+
+    @Override
+    @Transactional
+    public void deleteDriverRatingByDriverId(Long driverId) {
+        DriverRating rating = driverRatingRepository.findByDriverId(driverId)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(DRIVER_RATING_NOT_FOUND_BY_DRIVER_ID, driverId)));
+        driverRatingRepository.delete(rating);
+    }
+
+    @Override
+    @Transactional
+    public DriverRatingResponse updateDriverRatingByDriverId(Long driverId, DriverRatingRequest driverRatingRequest) {
+        DriverRating rating = driverRatingRepository.findByDriverId(driverId)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(DRIVER_RATING_NOT_FOUND_BY_DRIVER_ID, driverId)));
+        driverRatingMapper.updateDriverRatingFromDto(driverRatingRequest, rating);
+        DriverRating updatedRating = driverRatingRepository.save(rating);
+        return driverRatingMapper.toDriverRatingDto(updatedRating);
     }
 
     private DriverRating getByIdOrThrow(Long id){

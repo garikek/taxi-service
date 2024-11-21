@@ -10,4 +10,6 @@ public interface PassengerRatingService {
     PassengerRatingResponse getPassengerRatingById(Long id);
     void deletePassengerRating(Long id);
     PassengerRatingResponse updatePassengerRating(Long id, PassengerRatingRequest passengerRatingRequest);
+    void deletePassengerRatingByPassengerId(Long passengerId);
+    PassengerRatingResponse updatePassengerRatingByPassengerId(Long passengerId, PassengerRatingRequest passengerRatingRequest);
 }
