@@ -1,4 +1,4 @@
-package com.software.modsen.driverservice.dto;
+package com.software.modsen.driverservice.dto.request;
 
 import lombok.Data;
 
