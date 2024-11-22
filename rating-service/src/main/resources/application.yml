@@ -15,7 +15,22 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
+  rabbitmq:
+    listener:
+      simple:
+        acknowledge-mode: manual
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
+rating-service:
+  passenger:
+    exchange: passenger-rating-exchange
+    queue: passenger-rating-queue
+  driver:
+    exchange: driver-rating-exchange
+    queue: driver-rating-queue

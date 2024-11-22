@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface DriverRatingRepository extends JpaRepository<DriverRating, Long> {
     boolean existsByDriverId(Long driverId);
+    Optional<DriverRating> findByDriverId(Long driverId);
 }
