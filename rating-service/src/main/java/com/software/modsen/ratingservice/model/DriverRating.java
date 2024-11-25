@@ -15,7 +15,7 @@ public class DriverRating extends BaseRating {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "driver_id", nullable = false)
+    @Column(name = "driver_id", nullable = false, unique = true)
     private Long driverId;
 
     private Double rating = 0.0;

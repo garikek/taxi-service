@@ -1,8 +1,8 @@
 package com.software.modsen.passengerservice.service.impl;
 
-import com.software.modsen.passengerservice.dto.PassengerListDTO;
-import com.software.modsen.passengerservice.dto.PassengerRequest;
-import com.software.modsen.passengerservice.dto.PassengerResponse;
+import com.software.modsen.passengerservice.dto.response.PassengerListDTO;
+import com.software.modsen.passengerservice.dto.request.PassengerRequest;
+import com.software.modsen.passengerservice.dto.response.PassengerResponse;
 import com.software.modsen.passengerservice.exception.*;
 import com.software.modsen.passengerservice.mapper.PassengerMapper;
 import com.software.modsen.passengerservice.model.Passenger;

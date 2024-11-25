@@ -1,7 +1,7 @@
 package com.software.modsen.driverservice.mapper;
 
-import com.software.modsen.driverservice.dto.DriverRequest;
-import com.software.modsen.driverservice.dto.DriverResponse;
+import com.software.modsen.driverservice.dto.request.DriverRequest;
+import com.software.modsen.driverservice.dto.response.DriverResponse;
 import com.software.modsen.driverservice.model.Driver;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;

@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface PassengerRatingRepository extends JpaRepository<PassengerRating, Long> {
     boolean existsByPassengerId(Long passengerId);
+    Optional<PassengerRating> findByPassengerId(Long passengerId);
 }

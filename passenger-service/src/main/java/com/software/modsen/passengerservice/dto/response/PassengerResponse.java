@@ -1,4 +1,4 @@
-package com.software.modsen.passengerservice.dto;
+package com.software.modsen.passengerservice.dto.response;
 
 import lombok.Data;
 
@@ -8,5 +8,4 @@ public class PassengerResponse {
     private String name;
     private String email;
     private String phoneNumber;
-    private Double rating;
 }

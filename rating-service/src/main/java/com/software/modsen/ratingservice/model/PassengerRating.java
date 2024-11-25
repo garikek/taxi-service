@@ -15,7 +15,7 @@ public class PassengerRating extends BaseRating {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "passenger_id", nullable = false)
+    @Column(name = "passenger_id", nullable = false, unique = true)
     private Long passengerId;
 
     private Double rating = 0.0;

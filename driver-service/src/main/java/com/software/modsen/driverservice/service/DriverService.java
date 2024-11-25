@@ -1,8 +1,8 @@
 package com.software.modsen.driverservice.service;
 
-import com.software.modsen.driverservice.dto.DriverListDto;
-import com.software.modsen.driverservice.dto.DriverRequest;
-import com.software.modsen.driverservice.dto.DriverResponse;
+import com.software.modsen.driverservice.dto.response.DriverListDto;
+import com.software.modsen.driverservice.dto.request.DriverRequest;
+import com.software.modsen.driverservice.dto.response.DriverResponse;
 
 public interface DriverService {
     DriverListDto getDrivers();

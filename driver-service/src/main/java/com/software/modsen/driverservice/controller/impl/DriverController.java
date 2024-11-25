@@ -1,9 +1,9 @@
 package com.software.modsen.driverservice.controller.impl;
 
 import com.software.modsen.driverservice.controller.DriverApi;
-import com.software.modsen.driverservice.dto.DriverListDto;
-import com.software.modsen.driverservice.dto.DriverRequest;
-import com.software.modsen.driverservice.dto.DriverResponse;
+import com.software.modsen.driverservice.dto.response.DriverListDto;
+import com.software.modsen.driverservice.dto.request.DriverRequest;
+import com.software.modsen.driverservice.dto.response.DriverResponse;
 import com.software.modsen.driverservice.service.DriverService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
