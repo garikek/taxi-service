@@ -35,6 +35,7 @@ public class DriverRatingServiceImpl implements DriverRatingService {
     @Override
     @Transactional
     public DriverRatingResponse addDriverRating(DriverRatingRequest driverRatingRequest) {
+        checkDriverRatingExist(driverRatingRequest.getDriverId());
         DriverRating driverRating = driverRatingMapper.toDriverRatingEntity(driverRatingRequest);
         DriverRating savedDriverRating = driverRatingRepository.save(driverRating);
         return driverRatingMapper.toDriverRatingDto(savedDriverRating);
