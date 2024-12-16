@@ -7,6 +7,6 @@ public class Constant {
     public static final String INVALID_VEHICLE_NUMBER = "Invalid vehicle number: %s";
     public static final String DUPLICATE_EMAIL = "Email %s exists already";
     public static final String DUPLICATE_PHONE_NUMBER = "Phone number %s exists already";
-    public static final String DUPLICATE_VEHICLE_NUMBER = "Phone number %s exists already";
+    public static final String DUPLICATE_VEHICLE_NUMBER = "Vehicle number %s exists already";
     public static final String UNEXPECTED_ERROR_MESSAGE = "An unexpected error occurred. Please try again later.";
 }
