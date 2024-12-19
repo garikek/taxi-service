@@ -22,10 +22,10 @@ public class PassengerCustomer {
     private Long id;
 
     @Column(name = "passenger_id", unique = true)
-    Long passengerId;
+    private Long passengerId;
 
     @Column(name = "customer_id")
-    String customerId;
+    private String customerId;
 
     @CreatedDate
     @Column(name = "created_at", updatable = false)
