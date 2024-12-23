@@ -14,17 +14,16 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@IdClass(PassengerCustomerId.class)
 @Table(name = "passengers_customers")
 @EntityListeners(AuditingEntityListener.class)
 public class PassengerCustomer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "passenger_id", unique = true)
+    @Column(name = "passenger_id", nullable = false)
     private Long passengerId;
 
-    @Column(name = "customer_id")
+    @Id
+    @Column(name = "customer_id", nullable = false)
     private String customerId;
 
     @CreatedDate
