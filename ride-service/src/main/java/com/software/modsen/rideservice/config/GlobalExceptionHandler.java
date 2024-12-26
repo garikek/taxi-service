@@ -1,5 +1,6 @@
 package com.software.modsen.rideservice.config;
 
+import com.software.modsen.rideservice.exception.DuplicateResourceException;
 import com.software.modsen.rideservice.exception.InvalidResourceException;
 import com.software.modsen.rideservice.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(InvalidResourceException.class)
     public ResponseEntity<String> handleInvalidResourceException(InvalidResourceException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
+    @ExceptionHandler(DuplicateResourceException.class)
+    public ResponseEntity<String> handleDuplicateResourceException(DuplicateResourceException e) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
