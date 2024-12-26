@@ -19,7 +19,7 @@ spring:
     listener:
       simple:
         acknowledge-mode: manual
-    host: localhost
+    host: rabbitmq
     port: 5672
     username: guest
     password: guest
@@ -31,3 +31,18 @@ rating-service:
   exchange: driver-rating-exchange
   queue: driver-rating-queue
   routing-key: driver-rating
+driver-service:
+  exchange: ride-driver-exchange
+  queue: ride-driver-queue
+ride-service:
+  exchange: driver-ride-exchange
+  queue: driver-ride-queue
+  routing-key: driver-ride
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus, health, info
+  endpoint:
+    health:
+      show-details: always
