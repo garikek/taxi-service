@@ -20,6 +20,14 @@ spring:
           uri: lb://ride-service
           predicates:
             - Path=/api/v1/rides/**
+        - id: Ratings
+          uri: lb://rating-service
+          predicates:
+            - Path=/api/v1/ratings/**
+        - id: Payments
+          uri: lb://payment-service
+          predicates:
+            - Path=/api/v1/payments/**
 eureka:
   instance:
     prefer-ip-address: true

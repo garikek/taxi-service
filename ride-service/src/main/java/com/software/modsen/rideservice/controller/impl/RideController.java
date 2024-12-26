@@ -1,9 +1,9 @@
 package com.software.modsen.rideservice.controller.impl;
 
 import com.software.modsen.rideservice.controller.RideApi;
-import com.software.modsen.rideservice.dto.RideListDto;
-import com.software.modsen.rideservice.dto.RideRequest;
-import com.software.modsen.rideservice.dto.RideResponse;
+import com.software.modsen.rideservice.dto.response.RideListDto;
+import com.software.modsen.rideservice.dto.request.RideRequest;
+import com.software.modsen.rideservice.dto.response.RideResponse;
 import com.software.modsen.rideservice.service.RideService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

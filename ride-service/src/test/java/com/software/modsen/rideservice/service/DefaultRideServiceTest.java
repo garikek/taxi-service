@@ -1,7 +1,7 @@
 package com.software.modsen.rideservice.service;
 
-import com.software.modsen.rideservice.dto.RideRequest;
-import com.software.modsen.rideservice.dto.RideResponse;
+import com.software.modsen.rideservice.dto.request.RideRequest;
+import com.software.modsen.rideservice.dto.response.RideResponse;
 import com.software.modsen.rideservice.exception.InvalidResourceException;
 import com.software.modsen.rideservice.exception.ResourceNotFoundException;
 import com.software.modsen.rideservice.mapper.RideMapper;

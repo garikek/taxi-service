@@ -9,6 +9,8 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
   jpa:
+    hibernate:
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
@@ -17,7 +19,7 @@ spring:
     listener:
       simple:
         acknowledge-mode: manual
-    host: localhost
+    host: rabbitmq
     port: 5672
     username: guest
     password: guest
@@ -28,3 +30,22 @@ eureka:
 stripe:
   keys:
     secret: ${STRIPE_SECRET_KEY}
+payment-service:
+  passenger:
+    exchange: passenger-payment-exchange
+    queue: passenger-payment-queue
+  ride:
+    exchange: ride-payment-exchange
+    queue: ride-payment-queue
+ride-service:
+  exchange: payment-ride-exchange
+  queue: payment-ride-queue
+  routing-key: payment-ride
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus, health, info
+  endpoint:
+    health:
+      show-details: always

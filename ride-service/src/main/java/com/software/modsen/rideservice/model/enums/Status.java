@@ -6,9 +6,9 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum Status {
-    REQUESTED("Requested by passenger"),
-    ACCEPTED("Accepted by driver"),
-    IN_PROGRESS("Ride is in progress"),
+    REQUESTED("RIde requested by passenger"),
+    IN_PROGRESS("Ride accepted by driver and is in progress"),
+    DESTINATION_REACHED("Destination reached, awaiting payment"),
     COMPLETED("Ride has been completed"),
     CANCELED("Ride was cancelled");
 

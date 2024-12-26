@@ -15,7 +15,41 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
+  rabbitmq:
+    listener:
+      simple:
+        acknowledge-mode: manual
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
+ride-service:
+  passenger:
+    exchange: passenger-ride-exchange
+    queue: passenger-ride-queue
+  driver:
+    exchange: driver-ride-exchange
+    queue: driver-ride-queue
+  payment:
+    exchange: payment-ride-exchange
+    queue: payment-ride-queue
+driver-service:
+  exchange: ride-driver-exchange
+  queue: ride-driver-queue
+  routing-key: ride-driver
+payment-service:
+  exchange: ride-payment-exchange
+  queue: ride-payment-queue
+  routing-key: ride-payment
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus, health, info
+  endpoint:
+    health:
+      show-details: always
