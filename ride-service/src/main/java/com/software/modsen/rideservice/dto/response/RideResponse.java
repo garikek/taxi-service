@@ -1,4 +1,4 @@
-package com.software.modsen.rideservice.dto;
+package com.software.modsen.rideservice.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RideRequest {
+public class RideResponse {
+    private Long id;
     private Long passengerId;
     private Long driverId;
     private String pickupAddress;
