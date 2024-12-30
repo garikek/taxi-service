@@ -14,17 +14,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static com.software.modsen.driverservice.utility.Constant.DRIVER_NOT_FOUND_BY_ID;
-import static com.software.modsen.driverservice.utility.Constant.INVALID_EMAIL;
-import static com.software.modsen.driverservice.utility.Constant.INVALID_PHONE_NUMBER;
-import static com.software.modsen.driverservice.utility.Constant.INVALID_VEHICLE_NUMBER;
-import static com.software.modsen.driverservice.utility.Constant.DUPLICATE_EMAIL;
-import static com.software.modsen.driverservice.utility.Constant.DUPLICATE_PHONE_NUMBER;
-import static com.software.modsen.driverservice.utility.Constant.DUPLICATE_VEHICLE_NUMBER;
+import static com.software.modsen.driverservice.utility.Constant.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -39,6 +32,7 @@ public class DefaultDriverService implements DriverService {
 
     @Override
     public DriverListDto getDrivers() {
+        log.info(GET_DRIVERS);
         return new DriverListDto(driverRepository.findAll().stream()
                 .map(driverMapper::toDriverDto)
                 .collect(Collectors.toList()));
@@ -48,12 +42,14 @@ public class DefaultDriverService implements DriverService {
     public DriverResponse addDriver(DriverRequest driverRequest) {
         Driver driver = driverMapper.toDriverEntity(driverRequest);
         validateAddDriver(driver);
+        log.info(ADD_DRIVER);
         Driver savedDriver = driverRepository.save(driver);
         return driverMapper.toDriverDto(savedDriver);
     }
 
     @Override
     public DriverResponse getDriverById(Long id) {
+        log.info(GET_DRIVER_BY_ID, id);
         return driverMapper.toDriverDto(getByIdOrThrow(id));
     }
 
@@ -62,6 +58,7 @@ public class DefaultDriverService implements DriverService {
         if(!driverRepository.existsById(id)) {
             throw new ResourceNotFoundException(String.format(DRIVER_NOT_FOUND_BY_ID, id));
         }
+        log.info(DELETE_DRIVER);
         driverRepository.deleteById(id);
     }
 
@@ -70,7 +67,7 @@ public class DefaultDriverService implements DriverService {
         Driver existingDriver = getByIdOrThrow(id);
         driverMapper.updateDriverFromDto(driverRequest, existingDriver);
         validateUpdateDriver(existingDriver);
-        existingDriver.setUpdatedAt(LocalDateTime.now());
+        log.info(UPDATE_DRIVER);
         Driver updatedDriver = driverRepository.save(existingDriver);
         return driverMapper.toDriverDto(updatedDriver);
     }

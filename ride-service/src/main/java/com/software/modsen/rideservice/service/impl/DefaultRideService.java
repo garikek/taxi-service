@@ -16,8 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static com.software.modsen.rideservice.utility.Constant.INVALID_ADDRESS;
-import static com.software.modsen.rideservice.utility.Constant.RIDE_NOT_FOUND_BY_ID;
+import static com.software.modsen.rideservice.utility.Constant.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -30,6 +29,7 @@ public class DefaultRideService implements RideService {
 
     @Override
     public RideListDto getRides() {
+        log.info(GET_RIDES);
         return new RideListDto(rideRepository.findAll().stream()
                 .map(rideMapper::toRideDto)
                 .collect(Collectors.toList()));
@@ -39,12 +39,14 @@ public class DefaultRideService implements RideService {
     public RideResponse addRide(RideRequest rideRequest) {
         Ride ride = rideMapper.toRideEntity(rideRequest);
         validateAddRide(ride);
+        log.info(ADD_RIDE);
         Ride savedRide = rideRepository.save(ride);
         return rideMapper.toRideDto(savedRide);
     }
 
     @Override
     public RideResponse getRideById(Long id) {
+        log.info(GET_RIDE_BY_ID, id);
         return rideMapper.toRideDto(getByIdOrThrow(id));
     }
 
@@ -53,6 +55,7 @@ public class DefaultRideService implements RideService {
         if(!rideRepository.existsById(id)) {
             throw new ResourceNotFoundException(String.format(RIDE_NOT_FOUND_BY_ID, id));
         }
+        log.info(DELETE_RIDE);
         rideRepository.deleteById(id);
     }
 
@@ -61,6 +64,7 @@ public class DefaultRideService implements RideService {
         Ride existingRide = getByIdOrThrow(id);
         rideMapper.updateRideFromDto(rideRequest, existingRide);
         validateUpdateRide(existingRide);
+        log.info(UPDATE_RIDE);
         Ride updatedRide = rideRepository.save(existingRide);
         return rideMapper.toRideDto(updatedRide);
     }

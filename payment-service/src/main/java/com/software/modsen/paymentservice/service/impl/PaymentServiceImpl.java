@@ -13,11 +13,13 @@ import com.software.modsen.paymentservice.service.StripeService;
 import com.stripe.model.Customer;
 import com.stripe.model.PaymentIntent;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.software.modsen.paymentservice.utility.Constant.*;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
@@ -29,6 +31,7 @@ public class PaymentServiceImpl implements PaymentService {
     public CustomerResponse createCustomer(CustomerRequest customerRequest) {
         checkDuplicateCustomer(customerRequest.getPassengerId());
 
+        log.info(CREATE_CUSTOMER, customerRequest.getPassengerId());
         Customer customer = stripeService.createCustomerParams(customerRequest);
         stripeService.createPaymentParams(customer.getId());
 
@@ -50,6 +53,7 @@ public class PaymentServiceImpl implements PaymentService {
     public CustomerResponse getCustomerByPassengerId(Long passengerId) {
         PassengerCustomer user = getCustomerByPassengerIdOrThrow(passengerId);
         String customerId = user.getCustomerId();
+        log.info(GET_CUSTOMER_BY_PASSENGER_ID, passengerId);
         Customer customer = stripeService.getCustomerByCustomerId(customerId);
         return CustomerResponse.builder()
                 .id(customer.getId())
@@ -65,6 +69,7 @@ public class PaymentServiceImpl implements PaymentService {
         PassengerCustomer user = getCustomerByPassengerIdOrThrow(chargeRequest.getPassengerId());
 
         String customerId = user.getCustomerId();
+        log.info(CHARGE_PASSENGER, chargeRequest.getPassengerId(), chargeRequest.getAmount(), chargeRequest.getCurrency());
         PaymentIntent paymentIntent = stripeService.confirmIntent(chargeRequest, customerId);
         stripeService.changeBalance(customerId, chargeRequest.getAmount());
 

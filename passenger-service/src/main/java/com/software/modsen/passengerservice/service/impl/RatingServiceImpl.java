@@ -5,8 +5,12 @@ import com.software.modsen.passengerservice.dto.request.RatingRequest;
 import com.software.modsen.passengerservice.service.producer.PassengerRatingProducer;
 import com.software.modsen.passengerservice.service.RatingService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import static com.software.modsen.passengerservice.utility.Constant.SENDING_MESSAGE;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class RatingServiceImpl implements RatingService {
@@ -19,6 +23,7 @@ public class RatingServiceImpl implements RatingService {
                 ratingRequest.getRating(),
                 "CREATE"
         );
+        log.info(SENDING_MESSAGE, message.getAction());
         passengerRatingProducer.sendPassengerRatingMessage(message);
     }
 
@@ -29,6 +34,7 @@ public class RatingServiceImpl implements RatingService {
                 ratingRequest.getRating(),
                 "UPDATE"
         );
+        log.info(SENDING_MESSAGE, message.getAction());
         passengerRatingProducer.sendPassengerRatingMessage(message);
     }
 
@@ -39,6 +45,7 @@ public class RatingServiceImpl implements RatingService {
                 null,
                 "DELETE"
         );
+        log.info(SENDING_MESSAGE, message.getAction());
         passengerRatingProducer.sendPassengerRatingMessage(message);
     }
 }

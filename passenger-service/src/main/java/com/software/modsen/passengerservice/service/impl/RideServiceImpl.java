@@ -4,8 +4,12 @@ import com.software.modsen.passengerservice.dto.request.RideRequest;
 import com.software.modsen.passengerservice.service.RideService;
 import com.software.modsen.passengerservice.service.producer.PassengerRideProducer;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import static com.software.modsen.passengerservice.utility.Constant.SENDING_MESSAGE;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class RideServiceImpl implements RideService {
@@ -20,6 +24,7 @@ public class RideServiceImpl implements RideService {
                 .promoCode(rideRequest.getPromoCode())
                 .action("REQUEST")
                 .build();
+        log.info(SENDING_MESSAGE, message.getAction());
         passengerRideProducer.sendPassengerRideMessage(message);
     }
 
@@ -29,6 +34,7 @@ public class RideServiceImpl implements RideService {
                 .passengerId(passengerId)
                 .action("CANCEL")
                 .build();
+        log.info(SENDING_MESSAGE, message.getAction());
         passengerRideProducer.sendPassengerRideMessage(message);
     }
 }

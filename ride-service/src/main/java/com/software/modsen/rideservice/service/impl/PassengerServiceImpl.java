@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Random;
 
-import static com.software.modsen.rideservice.utility.Constant.RIDE_NOT_FOUND_BY_PASSENGER_ID_AND_STATUS;
+import static com.software.modsen.rideservice.utility.Constant.*;
 
 @Service
 @RequiredArgsConstructor
@@ -52,6 +52,7 @@ public class PassengerServiceImpl implements PassengerService {
                 .price(requestedRide.getPrice())
                 .action("AVAILABLE")
                 .build();
+        log.info(SENDING_MESSAGE, rideDriverRequest.getAction());
         rideDriverProducer.sendRideDriverMessage(rideDriverRequest);
 
         return requestedRide;
@@ -62,6 +63,7 @@ public class PassengerServiceImpl implements PassengerService {
         Ride ride = rideRepository.findByPassengerIdAndStatus(message.getPassengerId(), Status.REQUESTED)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(RIDE_NOT_FOUND_BY_PASSENGER_ID_AND_STATUS, message.getPassengerId())));
         ride.setStatus(Status.CANCELED);
+        log.info(RIDE_STATUS_UPDATE, ride.getId(), ride.getStatus());
         rideRepository.save(ride);
 
         RideDriverRequest rideDriverRequest = RideDriverRequest.builder()
@@ -69,6 +71,7 @@ public class PassengerServiceImpl implements PassengerService {
                 .passengerId(ride.getPassengerId())
                 .action("CANCEL")
                 .build();
+        log.info(SENDING_MESSAGE, rideDriverRequest.getAction());
         rideDriverProducer.sendRideDriverMessage(rideDriverRequest);
     }
 }

@@ -2,9 +2,11 @@ package com.software.modsen.driverservice.service;
 
 import com.software.modsen.driverservice.dto.request.DriverRideRequest;
 import com.software.modsen.driverservice.dto.request.RideDriverRequest;
+import com.software.modsen.driverservice.dto.response.AvailableRideListDto;
 import com.software.modsen.driverservice.dto.response.AvailableRideResponse;
 
 public interface AvailableRideService {
+    AvailableRideListDto getAvailableRides();
     AvailableRideResponse addRide(RideDriverRequest rideDriverRequest);
     void deleteRide(Long id);
     void deleteRide(Long rideId, Long passengerId);
