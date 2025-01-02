@@ -7,4 +7,10 @@ public class Constant {
     public static final String DUPLICATE_EMAIL = "Email %s exists already";
     public static final String DUPLICATE_PHONE_NUMBER = "Phone number %s exists already";
     public static final String UNEXPECTED_ERROR_MESSAGE = "An unexpected error occurred. Please try again later.";
+    public static final String GET_PASSENGERS = "Received list of passengers";
+    public static final String GET_PASSENGER_BY_ID = "Received passenger by id {}";
+    public static final String ADD_PASSENGER = "Passenger created and saved";
+    public static final String DELETE_PASSENGER = "Passenger deleted";
+    public static final String UPDATE_PASSENGER = "Passenger updated";
+    public static final String SENDING_MESSAGE = "Sending message. Action : {}";
 }

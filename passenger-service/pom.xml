@@ -26,6 +26,7 @@
 		<testcontainer.mysql.version>1.19.8</testcontainer.mysql.version>
 		<rest-assured.version>5.5.0</rest-assured.version>
 		<junit.jupiter.version>1.19.8</junit.jupiter.version>
+		<logstash-logback-encoder.version>8.0</logstash-logback-encoder.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -69,6 +70,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springdoc</groupId>
@@ -129,7 +136,25 @@
 			<version>${rest-assured.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.logstash.logback</groupId>
+			<artifactId>logstash-logback-encoder</artifactId>
+			<version>${logstash-logback-encoder.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-logging</artifactId>
+		</dependency>
     </dependencies>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

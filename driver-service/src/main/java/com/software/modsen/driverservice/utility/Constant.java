@@ -15,4 +15,15 @@ public class Constant {
     public static final String RECEIVED_MESSAGE = "Received message: {}";
     public static final String UNKNOWN_ACTION_MESSAGE = "Unknown action: {}";
     public static final String ERROR_PROCESSING_MESSAGE = "Error processing message: {}";
+    public static final String GET_DRIVERS = "Received list of drivers";
+    public static final String GET_DRIVER_BY_ID = "Received driver by id {}";
+    public static final String ADD_DRIVER = "Driver created and saved";
+    public static final String DELETE_DRIVER = "Driver deleted";
+    public static final String UPDATE_DRIVER = "Driver updated";
+    public static final String GET_AVAILABLE_RIDES = "Received list of available rides";
+    public static final String ADD_AVAILABLE_RIDE = "Available ride created and saved";
+    public static final String DELETE_AVAILABLE_RIDE = "Available ride deleted";
+    public static final String ACCEPT_RIDE = "Ride {} accepted by driver {}";
+    public static final String FINISH_RIDE = "Ride {} finished by driver {}";
+    public static final String SENDING_MESSAGE = "Sending message. Action : {}";
 }

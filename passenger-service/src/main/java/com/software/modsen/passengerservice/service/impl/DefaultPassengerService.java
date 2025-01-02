@@ -12,15 +12,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static com.software.modsen.passengerservice.utility.Constant.PASSENGER_NOT_FOUND_BY_ID;
-import static com.software.modsen.passengerservice.utility.Constant.INVALID_EMAIL;
-import static com.software.modsen.passengerservice.utility.Constant.INVALID_PHONE_NUMBER;
-import static com.software.modsen.passengerservice.utility.Constant.DUPLICATE_EMAIL;
-import static com.software.modsen.passengerservice.utility.Constant.DUPLICATE_PHONE_NUMBER;
+import static com.software.modsen.passengerservice.utility.Constant.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -34,6 +29,7 @@ public class DefaultPassengerService implements PassengerService {
 
     @Override
     public PassengerListDTO getPassengers() {
+        log.info(GET_PASSENGERS);
         return new PassengerListDTO(passengerRepository.findAll().stream()
                 .map(passengerMapper::toPassengerDTO)
                 .collect(Collectors.toList()));
@@ -43,12 +39,14 @@ public class DefaultPassengerService implements PassengerService {
     public PassengerResponse addPassenger(PassengerRequest passengerRequest) {
         Passenger passenger = passengerMapper.toPassengerEntity(passengerRequest);
         validateAddPassenger(passenger);
+        log.info(ADD_PASSENGER);
         Passenger savedPassenger = passengerRepository.save(passenger);
         return passengerMapper.toPassengerDTO(savedPassenger);
     }
 
     @Override
     public PassengerResponse getPassengerById(Long id) {
+        log.info(GET_PASSENGER_BY_ID, id);
         return passengerMapper.toPassengerDTO(getByIdOrThrow(id));
     }
 
@@ -57,6 +55,7 @@ public class DefaultPassengerService implements PassengerService {
         if(!passengerRepository.existsById(id)) {
             throw new ResourceNotFoundException(String.format(PASSENGER_NOT_FOUND_BY_ID, id));
         }
+        log.info(DELETE_PASSENGER);
         passengerRepository.deleteById(id);
     }
 
@@ -65,7 +64,7 @@ public class DefaultPassengerService implements PassengerService {
         Passenger existingPassenger = getByIdOrThrow(id);
         passengerMapper.updatePassengerFromDTO(passengerRequest, existingPassenger);
         validateUpdatePassenger(existingPassenger);
-        existingPassenger.setUpdatedAt(LocalDateTime.now());
+        log.info(UPDATE_PASSENGER);
         Passenger updatedPassenger = passengerRepository.save(existingPassenger);
         return passengerMapper.toPassengerDTO(updatedPassenger);
     }

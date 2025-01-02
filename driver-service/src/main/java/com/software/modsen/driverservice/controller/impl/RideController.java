@@ -2,6 +2,7 @@ package com.software.modsen.driverservice.controller.impl;
 
 import com.software.modsen.driverservice.controller.RideApi;
 import com.software.modsen.driverservice.dto.request.DriverRideRequest;
+import com.software.modsen.driverservice.dto.response.AvailableRideListDto;
 import com.software.modsen.driverservice.service.AvailableRideService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/drivers/rides")
 public class RideController implements RideApi {
     private final AvailableRideService rideService;
+
+    @Override
+    @GetMapping
+    public ResponseEntity<AvailableRideListDto> getAvailableRides() {
+        return ResponseEntity.ok(rideService.getAvailableRides());
+    }
 
     @Override
     @PostMapping

@@ -12,10 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.software.modsen.rideservice.utility.Constant.RIDE_NOT_FOUND_BY_ID;
+import static com.software.modsen.rideservice.utility.Constant.RIDE_STATUS_UPDATE;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
-@Slf4j
 @Transactional
 public class PaymentServiceImpl implements PaymentService {
 
@@ -26,6 +27,7 @@ public class PaymentServiceImpl implements PaymentService {
         Ride ride = rideRepository.findById(message.getRideId())
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(RIDE_NOT_FOUND_BY_ID, message.getRideId())));
         ride.setStatus(Status.COMPLETED);
+        log.info(RIDE_STATUS_UPDATE, ride.getId(), ride.getStatus());
         rideRepository.save(ride);
     }
 }

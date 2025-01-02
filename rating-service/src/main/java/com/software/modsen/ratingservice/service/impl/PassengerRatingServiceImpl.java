@@ -27,6 +27,7 @@ public class PassengerRatingServiceImpl implements PassengerRatingService {
 
     @Override
     public PassengerRatingResponseList getPassengerRatings() {
+        log.info(GET_PASSENGER_RATINGS);
         return new PassengerRatingResponseList(passengerRatingRepository.findAll().stream()
                 .map(passengerRatingMapper::toPassengerRatingDto)
                 .collect(Collectors.toList()));
@@ -37,12 +38,14 @@ public class PassengerRatingServiceImpl implements PassengerRatingService {
     public PassengerRatingResponse addPassengerRating(PassengerRatingRequest passengerRatingRequest) {
         checkPassengerRatingExist(passengerRatingRequest.getPassengerId());
         PassengerRating passengerRating = passengerRatingMapper.toPassengerRatingEntity(passengerRatingRequest);
+        log.info(ADD_PASSENGER_RATING);
         PassengerRating savedPassengerRating = passengerRatingRepository.save(passengerRating);
         return passengerRatingMapper.toPassengerRatingDto(savedPassengerRating);
     }
 
     @Override
     public PassengerRatingResponse getPassengerRatingById(Long id) {
+        log.info(GET_PASSENGER_RATING_BY_ID, id);
         return passengerRatingMapper.toPassengerRatingDto(getByIdOrThrow(id));
     }
 
@@ -52,6 +55,7 @@ public class PassengerRatingServiceImpl implements PassengerRatingService {
         if(!passengerRatingRepository.existsById(id)) {
             throw new ResourceNotFoundException(String.format(PASSENGER_RATING_NOT_FOUND_BY_ID, id));
         }
+        log.info(DELETE_PASSENGER_RATING);
         passengerRatingRepository.deleteById(id);
     }
 
@@ -60,6 +64,7 @@ public class PassengerRatingServiceImpl implements PassengerRatingService {
     public PassengerRatingResponse updatePassengerRating(Long id, PassengerRatingRequest passengerRatingRequest) {
         PassengerRating existingPassengerRating = getByIdOrThrow(id);
         passengerRatingMapper.updatePassengerRatingFromDto(passengerRatingRequest, existingPassengerRating);
+        log.info(UPDATE_PASSENGER_RATING);
         PassengerRating updatedPassengerRating = passengerRatingRepository.save(existingPassengerRating);
         return passengerRatingMapper.toPassengerRatingDto(updatedPassengerRating);
     }
@@ -69,6 +74,7 @@ public class PassengerRatingServiceImpl implements PassengerRatingService {
     public void deletePassengerRatingByPassengerId(Long passengerId) {
         PassengerRating rating = passengerRatingRepository.findByPassengerId(passengerId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(PASSENGER_RATING_NOT_FOUND_BY_PASSENGER_ID, passengerId)));
+        log.info(DELETE_PASSENGER_RATING);
         passengerRatingRepository.delete(rating);
     }
 
@@ -78,6 +84,7 @@ public class PassengerRatingServiceImpl implements PassengerRatingService {
         PassengerRating rating = passengerRatingRepository.findByPassengerId(passengerId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(PASSENGER_RATING_NOT_FOUND_BY_PASSENGER_ID, passengerId)));
         passengerRatingMapper.updatePassengerRatingFromDto(passengerRatingRequest, rating);
+        log.info(UPDATE_PASSENGER_RATING);
         PassengerRating updatedRating = passengerRatingRepository.save(rating);
         return passengerRatingMapper.toPassengerRatingDto(updatedRating);
     }

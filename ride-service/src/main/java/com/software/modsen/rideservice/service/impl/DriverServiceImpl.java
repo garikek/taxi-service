@@ -35,6 +35,7 @@ public class DriverServiceImpl implements DriverService {
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(RIDE_NOT_FOUND_BY_ID, message.getRideId())));
         ride.setDriverId(message.getDriverId());
         ride.setStatus(Status.IN_PROGRESS);
+        log.info(RIDE_STATUS_UPDATE, ride.getId(), ride.getStatus());
         rideRepository.save(ride);
     }
 
@@ -43,6 +44,7 @@ public class DriverServiceImpl implements DriverService {
         Ride existingRide = rideRepository.findByDriverIdAndStatus(message.getDriverId(), Status.IN_PROGRESS)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(RIDE_NOT_FOUND_BY_DRIVER_ID_AND_STATUS, message.getRideId())));
         existingRide.setStatus(Status.DESTINATION_REACHED);
+        log.info(RIDE_STATUS_UPDATE, existingRide.getId(), existingRide.getStatus());
         Ride unpaidRide = rideRepository.save(existingRide);
 
         RideChargeRequest rideChargeRequest = RideChargeRequest.builder()
@@ -53,6 +55,7 @@ public class DriverServiceImpl implements DriverService {
                 .action("CHARGE")
                 .build();
 
+        log.info(SENDING_MESSAGE, rideChargeRequest.getAction());
         ridePaymentProducer.sendRidePaymentMessage(rideChargeRequest);
     }
 }

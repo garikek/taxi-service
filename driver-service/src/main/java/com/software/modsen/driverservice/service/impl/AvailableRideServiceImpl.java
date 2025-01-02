@@ -3,6 +3,7 @@ package com.software.modsen.driverservice.service.impl;
 import com.software.modsen.driverservice.dto.request.AvailableRideRequest;
 import com.software.modsen.driverservice.dto.request.DriverRideRequest;
 import com.software.modsen.driverservice.dto.request.RideDriverRequest;
+import com.software.modsen.driverservice.dto.response.AvailableRideListDto;
 import com.software.modsen.driverservice.dto.response.AvailableRideResponse;
 import com.software.modsen.driverservice.exception.ResourceNotFoundException;
 import com.software.modsen.driverservice.mapper.AvailableRideMapper;
@@ -16,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.stream.Collectors;
+
 import static com.software.modsen.driverservice.utility.Constant.*;
 
 @Slf4j
@@ -26,6 +29,14 @@ public class AvailableRideServiceImpl implements AvailableRideService {
     private final DriverRepository driverRepository;
     private final AvailableRideMapper rideMapper;
     private final DriverRideProducer rideProducer;
+
+    @Override
+    public AvailableRideListDto getAvailableRides() {
+        log.info(GET_AVAILABLE_RIDES);
+        return new AvailableRideListDto(rideRepository.findAll().stream()
+                .map(rideMapper::toDto)
+                .collect(Collectors.toList()));
+    }
 
     @Transactional
     @Override
@@ -39,6 +50,7 @@ public class AvailableRideServiceImpl implements AvailableRideService {
                 .build();
 
         AvailableRide ride = rideMapper.toEntity(rideRequest);
+        log.info(ADD_AVAILABLE_RIDE);
         AvailableRide savedRide = rideRepository.save(ride);
         return rideMapper.toDto(savedRide);
     }
@@ -49,6 +61,7 @@ public class AvailableRideServiceImpl implements AvailableRideService {
         if (!rideRepository.existsById(id)) {
             throw new ResourceNotFoundException(String.format(RIDE_NOT_FOUND_BY_ID, id));
         }
+        log.info(DELETE_AVAILABLE_RIDE);
         rideRepository.deleteById(id);
     }
 
@@ -57,6 +70,7 @@ public class AvailableRideServiceImpl implements AvailableRideService {
     public void deleteRide(Long rideId, Long passengerId) {
         AvailableRide ride = rideRepository.findByRideIdAndPassengerId(rideId, passengerId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(RIDE_NOT_FOUND_BY_RIDE_ID_AND_PASSENGER_ID, rideId, passengerId)));
+        log.info(DELETE_AVAILABLE_RIDE);
         rideRepository.deleteById(ride.getId());
     }
 
@@ -71,6 +85,7 @@ public class AvailableRideServiceImpl implements AvailableRideService {
 
         rideRequest.setAction("ACCEPT");
 
+        log.info(ACCEPT_RIDE, rideRequest.getRideId(), rideRequest.getDriverId());
         rideProducer.sendDriverRideMessage(rideRequest);
         deleteRide(ride.getId());
     }
@@ -81,6 +96,7 @@ public class AvailableRideServiceImpl implements AvailableRideService {
                 .driverId(driverId)
                 .action("FINISH")
                 .build();
+        log.info(FINISH_RIDE, message.getRideId(), message.getDriverId());
         rideProducer.sendDriverRideMessage(message);
     }
 }
