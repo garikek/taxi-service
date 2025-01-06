@@ -162,7 +162,7 @@ services:
                '--http-port=8180',
                '--import-realm' ]
     volumes:
-      - ./keycloak:/opt/jboss/keycloak/realm-config
+      - ./keycloak:/opt/keycloak/data/import
     depends_on:
       - mysql
     networks:
