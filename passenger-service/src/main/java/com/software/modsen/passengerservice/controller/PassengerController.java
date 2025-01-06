@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class PassengerController {
     private final PassengerService passengerService;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Get list of all passengers")
     @ApiResponse(responseCode = "200", description = "Successfully retrieved list of passengers")
     @GetMapping
@@ -28,6 +30,7 @@ public class PassengerController {
         return ResponseEntity.ok(passengerService.getPassengers());
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Add a new passenger")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Passenger created successfully"),
@@ -38,6 +41,7 @@ public class PassengerController {
         return ResponseEntity.status(HttpStatus.CREATED).body(passengerService.addPassenger(passengerRequest));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Get a passenger by ID")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Passenger found"),
@@ -49,6 +53,7 @@ public class PassengerController {
         return passengerService.getPassengerById(id);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Delete a passenger by ID")
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Passenger deleted successfully"),
@@ -61,6 +66,7 @@ public class PassengerController {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_PASSENGER','ROLE_ADMIN')")
     @Operation(summary = "Update a passenger by ID")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Passenger updated successfully"),
