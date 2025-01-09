@@ -3,10 +3,12 @@ package com.software.modsen.paymentservice.exception.handler;
 import com.software.modsen.paymentservice.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import static com.software.modsen.paymentservice.utility.Constant.AUTHORIZE_EXCEPTION_MESSAGE;
 import static com.software.modsen.paymentservice.utility.Constant.UNEXPECTED_ERROR_MESSAGE;
 
 @RestControllerAdvice
@@ -24,6 +26,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({CustomerCreateException.class, InsufficientBalanceException.class, PaymentException.class})
     public ResponseEntity<String> handleBadRequestException(Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<String> handleAccessDeniedException(AccessDeniedException e) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(AUTHORIZE_EXCEPTION_MESSAGE);
     }
 
     @ExceptionHandler(Exception.class)
