@@ -18,7 +18,7 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Binding binding(Queue driverRatingQueue, TopicExchange driverRatingExchange) {
+    public Binding driverRatingBinding(Queue driverRatingQueue, TopicExchange driverRatingExchange) {
         return BindingBuilder
                 .bind(driverRatingQueue)
                 .to(driverRatingExchange)
@@ -59,6 +59,24 @@ public class RabbitMQConfig {
                 .bind(driverRideQueue)
                 .to(driverRideExchange)
                 .with("driver-ride");
+    }
+
+    @Bean
+    public TopicExchange authDriverExchange() {
+        return new TopicExchange("auth-driver-exchange");
+    }
+
+    @Bean
+    public Queue authDriverQueue() {
+        return QueueBuilder.durable("auth-driver-queue").build();
+    }
+
+    @Bean
+    public Binding authDriverBinding(Queue authDriverQueue, TopicExchange authDriverExchange) {
+        return BindingBuilder
+                .bind(authDriverQueue)
+                .to(authDriverExchange)
+                .with("auth-driver");
     }
 
     @Bean
