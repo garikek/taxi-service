@@ -38,8 +38,12 @@ rating-service:
   queue: driver-rating-queue
   routing-key: driver-rating
 driver-service:
-  exchange: ride-driver-exchange
-  queue: ride-driver-queue
+  ride:
+    exchange: ride-driver-exchange
+    queue: ride-driver-queue
+  auth:
+    exchange: auth-driver-exchange
+    queue: auth-driver-queue
 ride-service:
   exchange: driver-ride-exchange
   queue: driver-ride-queue

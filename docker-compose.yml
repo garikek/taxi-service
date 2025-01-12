@@ -31,6 +31,11 @@ x-config-payment-service:
     - spring.security.oauth2.resourceserver.jwt.issuer-uri=http://keycloak:8180/realms/taxi-realm
     - spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://keycloak:8180/realms/taxi-realm/protocol/openid-connect/certs
 
+x-config-auth-service:
+  &spring-auth-service-config
+  environment:
+    - eureka.client.service-Url.defaultZone=http://eureka-server:8761/eureka
+
 x-config-keycloak:
   &keycloak-config
   environment:
@@ -250,6 +255,23 @@ services:
       - logstash
     <<: *spring-payment-service-config
     container_name: payment-service
+    networks:
+      - app
+
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: ./Dockerfile
+    image: auth-service:v1.0
+    ports:
+      - "8086:8086"
+    depends_on:
+      - keycloak
+      - eureka-server
+      - rabbitmq
+      - logstash
+    <<: *spring-auth-service-config
+    container_name: auth-service
     networks:
       - app
 

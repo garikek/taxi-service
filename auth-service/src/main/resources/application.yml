@@ -1,0 +1,40 @@
+server:
+  port: 8086
+spring:
+  application:
+    name: auth-service
+  rabbitmq:
+    listener:
+      simple:
+        acknowledge-mode: manual
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+keycloak:
+  server-url: http://keycloak:8180
+  realm: taxi-realm
+  client-id: taxi-service-client
+  secret: rI8Pfm1DN8E8zRywpgaeoXOmiuuntQiF
+  username: admin
+  password: admin
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus, health, info
+  endpoint:
+    health:
+      show-details: always
+passenger-service:
+  exchange: auth-passenger-exchange
+  queue: auth-passenger-queue
+  routing-key: auth-passenger
+driver-service:
+  exchange: auth-driver-exchange
+  queue: auth-driver-queue
+  routing-key: auth-driver

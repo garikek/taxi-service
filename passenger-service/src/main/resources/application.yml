@@ -45,6 +45,10 @@ payment-service:
   exchange: passenger-payment-exchange
   queue: passenger-payment-queue
   routing-key: passenger-payment
+passenger-service:
+  auth:
+    exchange: auth-passenger-exchange
+    queue: auth-passenger-queue
 management:
   endpoints:
     web:

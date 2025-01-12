@@ -18,7 +18,7 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Binding rideBinding(Queue passengerRideQueue, TopicExchange passengerRideExchange) {
+    public Binding passengerRideBinding(Queue passengerRideQueue, TopicExchange passengerRideExchange) {
         return BindingBuilder
                 .bind(passengerRideQueue)
                 .to(passengerRideExchange)

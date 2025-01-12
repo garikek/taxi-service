@@ -18,7 +18,7 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Binding binding(Queue passengerRatingQueue, TopicExchange passengerRatingExchange) {
+    public Binding passengerRatingBinding(Queue passengerRatingQueue, TopicExchange passengerRatingExchange) {
         return BindingBuilder
                 .bind(passengerRatingQueue)
                 .to(passengerRatingExchange)
@@ -36,7 +36,7 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Binding rideBinding(Queue passengerRideQueue, TopicExchange passengerRideExchange) {
+    public Binding passengerRideBinding(Queue passengerRideQueue, TopicExchange passengerRideExchange) {
         return BindingBuilder
                 .bind(passengerRideQueue)
                 .to(passengerRideExchange)
@@ -59,6 +59,24 @@ public class RabbitMQConfig {
                 .bind(passengerPaymentQueue)
                 .to(passengerPaymentExchange)
                 .with("passenger-payment");
+    }
+
+    @Bean
+    public TopicExchange authPassengerExchange() {
+        return new TopicExchange("auth-passenger-exchange");
+    }
+
+    @Bean
+    public Queue authPassengerQueue() {
+        return QueueBuilder.durable("auth-passenger-queue").build();
+    }
+
+    @Bean
+    public Binding authPassengerBinding(Queue authPassengerQueue, TopicExchange authPassengerExchange) {
+        return BindingBuilder
+                .bind(authPassengerQueue)
+                .to(authPassengerExchange)
+                .with("auth-passenger");
     }
 
     @Bean

@@ -18,7 +18,7 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Binding passengerBinding(Queue passengerRatingQueue, TopicExchange passengerRatingExchange) {
+    public Binding passengerRatingBinding(Queue passengerRatingQueue, TopicExchange passengerRatingExchange) {
         return BindingBuilder
                 .bind(passengerRatingQueue)
                 .to(passengerRatingExchange)
@@ -36,7 +36,7 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Binding driverBinding(Queue driverRatingQueue, TopicExchange driverRatingExchange) {
+    public Binding driverRatingBinding(Queue driverRatingQueue, TopicExchange driverRatingExchange) {
         return BindingBuilder
                 .bind(driverRatingQueue)
                 .to(driverRatingExchange)
