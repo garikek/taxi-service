@@ -35,7 +35,7 @@ public interface RideApi {
             @ApiResponse(responseCode = "204", description = "Ride deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Ride not found")
     })
-    ResponseEntity<Void>  deleteRide(@Parameter(description = "ID of the ride to delete") Long id);
+    ResponseEntity<Void> deleteRide(@Parameter(description = "ID of the ride to delete") Long id);
 
     @Operation(summary = "Update a ride by ID")
     @ApiResponses({
@@ -47,4 +47,19 @@ public interface RideApi {
             @Parameter(description = "ID of the ride to update") Long id,
             RideRequest rideRequest
     );
+
+    @Operation(summary = "Get list of all completed rides by driver ID")
+    @ApiResponse(responseCode = "200", description = "Successfully retrieved list of completed rides by driver ID")
+    ResponseEntity<RideListDto> getCompletedRidesByDriverId(Long driverId);
+
+    @Operation(summary = "Get list of all completed rides by passenger ID")
+    @ApiResponse(responseCode = "200", description = "Successfully retrieved list of completed rides by passenger ID")
+    ResponseEntity<RideListDto> getCompletedRidesByPassengerId(Long passengerId);
+
+    @Operation(summary = "Get estimated price of a ride by ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Ride found"),
+            @ApiResponse(responseCode = "404", description = "Ride not found")
+    })
+    Double getEstimatedRidePrice(@Parameter(description = "ID of the ride to retrieve") Long id);
 }

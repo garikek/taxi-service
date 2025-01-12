@@ -89,6 +89,14 @@ public class DriverRatingServiceImpl implements DriverRatingService {
         return driverRatingMapper.toDriverRatingDto(updatedRating);
     }
 
+    @Override
+    public DriverRatingResponseList getDriverRatingsByDriverId(Long driverId) {
+        log.info(GET_DRIVER_RATINGS_BY_DRIVER_ID, driverId);
+        return new DriverRatingResponseList(driverRatingRepository.findAllByDriverId(driverId).stream()
+                .map(driverRatingMapper::toDriverRatingDto)
+                .collect(Collectors.toList()));
+    }
+
     private DriverRating getByIdOrThrow(Long id){
         return driverRatingRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(DRIVER_RATING_NOT_FOUND_BY_ID, id)));

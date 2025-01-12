@@ -7,6 +7,7 @@ import com.software.modsen.rideservice.exception.InvalidResourceException;
 import com.software.modsen.rideservice.exception.ResourceNotFoundException;
 import com.software.modsen.rideservice.mapper.RideMapper;
 import com.software.modsen.rideservice.model.Ride;
+import com.software.modsen.rideservice.model.enums.Status;
 import com.software.modsen.rideservice.repository.RideRepository;
 import com.software.modsen.rideservice.service.RideService;
 import lombok.RequiredArgsConstructor;
@@ -67,6 +68,29 @@ public class DefaultRideService implements RideService {
         log.info(UPDATE_RIDE);
         Ride updatedRide = rideRepository.save(existingRide);
         return rideMapper.toRideDto(updatedRide);
+    }
+
+    @Override
+    public RideListDto getCompletedRidesByDriverId(Long driverId) {
+        log.info(GET_COMPLETED_RIDES_BY_DRIVER_ID, driverId);
+        return new RideListDto(rideRepository.findAllByDriverIdAndStatus(driverId, Status.COMPLETED).stream()
+                .map(rideMapper::toRideDto)
+                .collect(Collectors.toList()));
+    }
+
+    @Override
+    public RideListDto getCompletedRidesByPassengerId(Long passengerId) {
+        log.info(GET_COMPLETED_RIDES_BY_PASSENGER_ID, passengerId);
+        return new RideListDto(rideRepository.findAllByPassengerIdAndStatus(passengerId, Status.COMPLETED).stream()
+                .map(rideMapper::toRideDto)
+                .collect(Collectors.toList()));
+    }
+
+    @Override
+    public Double getEstimatedRidePrice(Long id) {
+        log.info(GET_ESTIMATED_RIDE_PRICE, id);
+        Ride ride = getByIdOrThrow(id);
+        return ride.getPrice();
     }
 
     private void validateAddRide(Ride ride){

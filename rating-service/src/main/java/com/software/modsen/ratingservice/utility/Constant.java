@@ -12,14 +12,16 @@ public class Constant {
     public static final String RECEIVED_MESSAGE = "Received message: {}";
     public static final String UNKNOWN_ACTION_MESSAGE = "Unknown action: {}";
     public static final String ERROR_PROCESSING_MESSAGE = "Error processing message: {}";
-    public static final String GET_DRIVER_RATINGS = "Received list of drivers";
-    public static final String GET_DRIVER_RATING_BY_ID = "Received driver by id {}";
+    public static final String GET_DRIVER_RATINGS = "Received list of driver ratings";
+    public static final String GET_DRIVER_RATING_BY_ID = "Received driver rating by id {}";
     public static final String ADD_DRIVER_RATING = "Driver rating created and saved";
     public static final String DELETE_DRIVER_RATING = "Driver rating deleted";
     public static final String UPDATE_DRIVER_RATING = "Driver rating updated";
-    public static final String GET_PASSENGER_RATINGS = "Received list of passengers";
-    public static final String GET_PASSENGER_RATING_BY_ID = "Received passenger by id {}";
+    public static final String GET_PASSENGER_RATINGS = "Received list of passenger ratings";
+    public static final String GET_PASSENGER_RATING_BY_ID = "Received passenger rating by id {}";
     public static final String ADD_PASSENGER_RATING = "Passenger rating created and saved";
     public static final String DELETE_PASSENGER_RATING = "Passenger rating deleted";
     public static final String UPDATE_PASSENGER_RATING = "Passenger rating updated";
+    public static final String GET_PASSENGER_RATINGS_BY_PASSENGER_ID = "Received passenger ratings for passenger id {}";
+    public static final String GET_DRIVER_RATINGS_BY_DRIVER_ID = "Received driver ratings for driver id {}";
 }

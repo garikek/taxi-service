@@ -18,4 +18,7 @@ public class Constant {
     public static final String UPDATE_RIDE = "Ride updated";
     public static final String RIDE_STATUS_UPDATE = "Ride {} set status {}";
     public static final String SENDING_MESSAGE = "Sending message. Action : {}";
+    public static final String GET_COMPLETED_RIDES_BY_DRIVER_ID = "Received completed rides by driver id {}";
+    public static final String GET_COMPLETED_RIDES_BY_PASSENGER_ID = "Received completed rides by passenger id {}";
+    public static final String GET_ESTIMATED_RIDE_PRICE = "Received estimated price of ride with id {}";
 }

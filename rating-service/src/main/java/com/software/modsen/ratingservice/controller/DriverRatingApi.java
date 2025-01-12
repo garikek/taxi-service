@@ -9,14 +9,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Driver ratings", description = "Endpoints for managing driver ratings")
-@RequestMapping("/api/v1/ratings/drivers")
 public interface DriverRatingApi {
     @Operation(summary = "Get list of all driver ratings")
     @ApiResponse(responseCode = "200", description = "Successfully retrieved list of driver ratings")
-    @GetMapping
     ResponseEntity<DriverRatingResponseList> getDriverRatings();
 
     @Operation(summary = "Add new driver rating")
@@ -24,24 +21,21 @@ public interface DriverRatingApi {
             @ApiResponse(responseCode = "201", description = "Driver rating created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input data")
     })
-    @PostMapping
-    ResponseEntity<DriverRatingResponse> addDriverRating(@RequestBody DriverRatingRequest driverRatingRequest);
+    ResponseEntity<DriverRatingResponse> addDriverRating(DriverRatingRequest driverRatingRequest);
 
     @Operation(summary = "Get driver rating by ID")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Driver rating found"),
             @ApiResponse(responseCode = "404", description = "Driver rating not found")
     })
-    @GetMapping("/{id}")
-    DriverRatingResponse getDriverRatingById(@Parameter(description = "ID of the driver rating to retrieve") @PathVariable Long id);
+    DriverRatingResponse getDriverRatingById(@Parameter(description = "ID of the driver rating to retrieve") Long id);
 
     @Operation(summary = "Delete driver rating by ID")
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Driver rating deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Driver rating not found")
     })
-    @DeleteMapping("/{id}")
-    ResponseEntity<Void>  deleteDriverRating(@Parameter(description = "ID of the driver rating to delete") @PathVariable Long id);
+    ResponseEntity<Void>  deleteDriverRating(@Parameter(description = "ID of the driver rating to delete") Long id);
 
     @Operation(summary = "Update driver rating by ID")
     @ApiResponses({
@@ -49,9 +43,12 @@ public interface DriverRatingApi {
             @ApiResponse(responseCode = "404", description = "Driver rating not found"),
             @ApiResponse(responseCode = "400", description = "Invalid input data")
     })
-    @PutMapping("/{id}")
     ResponseEntity<DriverRatingResponse> updateDriverRating(
-            @Parameter(description = "ID of the driver rating to update") @PathVariable Long id,
-            @RequestBody DriverRatingRequest driverRatingRequest
+            @Parameter(description = "ID of the driver rating to update") Long id,
+            DriverRatingRequest driverRatingRequest
     );
+
+    @Operation(summary = "Get list of all driver ratings by driver ID")
+    @ApiResponse(responseCode = "200", description = "Successfully retrieved list of driver ratings by driver ID")
+    ResponseEntity<DriverRatingResponseList> getDriverRatingsByDriverId(Long driverId);
 }

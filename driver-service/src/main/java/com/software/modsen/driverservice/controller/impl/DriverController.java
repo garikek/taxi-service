@@ -28,7 +28,7 @@ public class DriverController implements DriverApi {
         return ResponseEntity.status(HttpStatus.CREATED).body(driverService.addDriver(driverRequest));
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_PASSENGER','ROLE_ADMIN')")
     @Override
     public DriverResponse getDriverById(Long id) {
         return driverService.getDriverById(id);
