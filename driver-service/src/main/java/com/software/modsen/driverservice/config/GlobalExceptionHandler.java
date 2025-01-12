@@ -1,5 +1,6 @@
 package com.software.modsen.driverservice.config;
 
+import com.software.modsen.driverservice.exception.FeignClientException;
 import com.software.modsen.driverservice.exception.ResourceNotFoundException;
 import com.software.modsen.driverservice.exception.InvalidResourceException;
 import com.software.modsen.driverservice.exception.DuplicateResourceException;
@@ -27,8 +28,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
     }
 
-    @ExceptionHandler(InvalidResourceException.class)
-    public ResponseEntity<String> handleInvalidResourceException(InvalidResourceException e) {
+    @ExceptionHandler({InvalidResourceException.class, FeignClientException.class})
+    public ResponseEntity<String> handleBadRequestException(Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 

@@ -20,23 +20,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(DuplicateEmailException.class)
-    public ResponseEntity<String> handleDuplicateEmailException(DuplicateEmailException e) {
+    @ExceptionHandler({DuplicateEmailException.class, DuplicatePhoneNumberException.class})
+    public ResponseEntity<String> handleConflictException(Exception e) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
     }
 
-    @ExceptionHandler(DuplicatePhoneNumberException.class)
-    public ResponseEntity<String> handleDuplicatePhoneNumberException(DuplicatePhoneNumberException e) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-    }
-
-    @ExceptionHandler(InvalidEmailException.class)
-    public ResponseEntity<String> handleInvalidEmailException(InvalidEmailException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-    }
-
-    @ExceptionHandler(InvalidPhoneNumberException.class)
-    public ResponseEntity<String> handleInvalidPhoneNumberException(InvalidPhoneNumberException e) {
+    @ExceptionHandler({InvalidEmailException.class, InvalidPhoneNumberException.class, FeignClientException.class})
+    public ResponseEntity<String> handleBadRequestException(Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
