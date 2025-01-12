@@ -1,6 +1,8 @@
 package com.software.modsen.passengerservice.service.impl;
 
+import com.software.modsen.passengerservice.client.RideFeignClient;
 import com.software.modsen.passengerservice.dto.request.RideRequest;
+import com.software.modsen.passengerservice.dto.response.RideListDto;
 import com.software.modsen.passengerservice.service.RideService;
 import com.software.modsen.passengerservice.service.producer.PassengerRideProducer;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ import static com.software.modsen.passengerservice.utility.Constant.SENDING_MESS
 @RequiredArgsConstructor
 public class RideServiceImpl implements RideService {
     private final PassengerRideProducer passengerRideProducer;
+    private final RideFeignClient rideFeignClient;
 
     @Override
     public void requestRide(RideRequest rideRequest) {
@@ -36,5 +39,15 @@ public class RideServiceImpl implements RideService {
                 .build();
         log.info(SENDING_MESSAGE, message.getAction());
         passengerRideProducer.sendPassengerRideMessage(message);
+    }
+
+    @Override
+    public Double getEstimatedRidePrice(Long rideId) {
+        return rideFeignClient.getEstimatedRidePrice(rideId);
+    }
+
+    @Override
+    public RideListDto getRideHistory(Long passengerId) {
+        return rideFeignClient.getRideHistory(passengerId);
     }
 }

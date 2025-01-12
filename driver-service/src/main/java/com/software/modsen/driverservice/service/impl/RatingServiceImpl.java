@@ -1,7 +1,9 @@
 package com.software.modsen.driverservice.service.impl;
 
+import com.software.modsen.driverservice.client.RatingFeignClient;
 import com.software.modsen.driverservice.dto.request.DriverForRating;
 import com.software.modsen.driverservice.dto.request.RatingRequest;
+import com.software.modsen.driverservice.dto.response.DriverRatingResponseList;
 import com.software.modsen.driverservice.service.RatingService;
 import com.software.modsen.driverservice.service.producer.DriverRatingProducer;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import static com.software.modsen.driverservice.utility.Constant.SENDING_MESSAGE
 @RequiredArgsConstructor
 public class RatingServiceImpl implements RatingService {
     private final DriverRatingProducer driverRatingProducer;
+    private final RatingFeignClient ratingFeignClient;
 
     @Override
     public void addRating(RatingRequest ratingRequest) {
@@ -47,5 +50,10 @@ public class RatingServiceImpl implements RatingService {
         );
         log.info(SENDING_MESSAGE, message.getAction());
         driverRatingProducer.sendDriverRatingMessage(message);
+    }
+
+    @Override
+    public DriverRatingResponseList getDriverRatings(Long driverId) {
+        return ratingFeignClient.getDriverRatings(driverId);
     }
 }

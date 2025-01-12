@@ -56,3 +56,10 @@ management:
   endpoint:
     health:
       show-details: always
+feign-client:
+  rating-service:
+    name: rating-service
+    path: /api/v1/ratings/drivers
+  ride-service:
+    name: ride-service
+    path: /api/v1/rides

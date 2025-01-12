@@ -57,3 +57,13 @@ management:
   endpoint:
     health:
       show-details: always
+feign-client:
+  driver-service:
+    name: driver-service
+    path: /api/v1/drivers
+  rating-service:
+    name: rating-service
+    path: /api/v1/ratings/passengers
+  ride-service:
+    name: ride-service
+    path: /api/v1/rides
