@@ -1,7 +1,9 @@
 package com.software.modsen.passengerservice.service.impl;
 
+import com.software.modsen.passengerservice.client.RatingFeignClient;
 import com.software.modsen.passengerservice.dto.request.PassengerForRating;
 import com.software.modsen.passengerservice.dto.request.RatingRequest;
+import com.software.modsen.passengerservice.dto.response.PassengerRatingResponseList;
 import com.software.modsen.passengerservice.service.producer.PassengerRatingProducer;
 import com.software.modsen.passengerservice.service.RatingService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import static com.software.modsen.passengerservice.utility.Constant.SENDING_MESS
 @RequiredArgsConstructor
 public class RatingServiceImpl implements RatingService {
     private final PassengerRatingProducer passengerRatingProducer;
+    private final RatingFeignClient ratingFeignClient;
 
     @Override
     public void addRating(RatingRequest ratingRequest) {
@@ -47,5 +50,10 @@ public class RatingServiceImpl implements RatingService {
         );
         log.info(SENDING_MESSAGE, message.getAction());
         passengerRatingProducer.sendPassengerRatingMessage(message);
+    }
+
+    @Override
+    public PassengerRatingResponseList getPassengerRatings(Long passengerId) {
+        return ratingFeignClient.getPassengerRatings(passengerId);
     }
 }

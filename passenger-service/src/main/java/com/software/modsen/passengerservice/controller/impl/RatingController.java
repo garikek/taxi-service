@@ -2,6 +2,7 @@ package com.software.modsen.passengerservice.controller.impl;
 
 import com.software.modsen.passengerservice.controller.RatingApi;
 import com.software.modsen.passengerservice.dto.request.RatingRequest;
+import com.software.modsen.passengerservice.dto.response.PassengerRatingResponseList;
 import com.software.modsen.passengerservice.service.RatingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -37,5 +38,12 @@ public class RatingController implements RatingApi {
     public ResponseEntity<Void> deleteRating(@PathVariable Long passengerId) {
         ratingService.deleteRating(passengerId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_PASSENGER','ROLE_ADMIN')")
+    @Override
+    @GetMapping("/{passengerId}")
+    public ResponseEntity<PassengerRatingResponseList> getPassengerRatings(Long passengerId) {
+        return ResponseEntity.ok(ratingService.getPassengerRatings(passengerId));
     }
 }

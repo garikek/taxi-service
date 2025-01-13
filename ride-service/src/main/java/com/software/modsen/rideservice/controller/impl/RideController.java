@@ -41,7 +41,7 @@ public class RideController implements RideApi {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Override
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void>  deleteRide(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteRide(@PathVariable Long id) {
         rideService.deleteRide(id);
         return ResponseEntity.noContent().build();
     }
@@ -54,5 +54,26 @@ public class RideController implements RideApi {
             @RequestBody RideRequest rideRequest
     ) {
         return ResponseEntity.ok(rideService.updateRide(id, rideRequest));
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_DRIVER','ROLE_ADMIN')")
+    @Override
+    @GetMapping("/driver/{driverId}")
+    public ResponseEntity<RideListDto> getCompletedRidesByDriverId(@PathVariable Long driverId) {
+        return ResponseEntity.ok(rideService.getCompletedRidesByDriverId(driverId));
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_PASSENGER','ROLE_ADMIN')")
+    @Override
+    @GetMapping("/passenger/{passengerId}")
+    public ResponseEntity<RideListDto> getCompletedRidesByPassengerId(@PathVariable Long passengerId) {
+        return ResponseEntity.ok(rideService.getCompletedRidesByPassengerId(passengerId));
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_PASSENGER','ROLE_ADMIN')")
+    @Override
+    @GetMapping("/price/{id}")
+    public Double getEstimatedRidePrice(@PathVariable Long id) {
+        return rideService.getEstimatedRidePrice(id);
     }
 }

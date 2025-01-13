@@ -47,6 +47,4 @@ public class Ride {
     @LastModifiedDate
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-
 }

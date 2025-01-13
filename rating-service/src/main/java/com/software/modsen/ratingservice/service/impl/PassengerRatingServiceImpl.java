@@ -89,6 +89,14 @@ public class PassengerRatingServiceImpl implements PassengerRatingService {
         return passengerRatingMapper.toPassengerRatingDto(updatedRating);
     }
 
+    @Override
+    public PassengerRatingResponseList getPassengerRatingsByPassengerId(Long passengerId) {
+        log.info(GET_PASSENGER_RATINGS_BY_PASSENGER_ID, passengerId);
+        return new PassengerRatingResponseList(passengerRatingRepository.findAllByPassengerId(passengerId).stream()
+                .map(passengerRatingMapper::toPassengerRatingDto)
+                .collect(Collectors.toList()));
+    }
+
     private PassengerRating getByIdOrThrow(Long id){
         return passengerRatingRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(PASSENGER_RATING_NOT_FOUND_BY_ID, id)));
